@@ -70,6 +70,15 @@ def setup_phits_environment(tar_path: Path, target_dir: Path) -> tuple:
 
     subprocess.run(["chmod", "+x", str(phits_bin)], check=True)
     phits_root = phits_bin.parent
+
+    # Giai nen bo sung EGS neu co
+    egs_tar = tar_path.parent / "egs.tar.gz"
+    if egs_tar.exists() and not (phits_root / "XS" / "egs").exists():
+        print(f">>> [SETUP] Dang giai nen goi EGS tu {egs_tar} vao {phits_root / 'XS'}...")
+        (phits_root / "XS").mkdir(parents=True, exist_ok=True)
+        subprocess.run(["tar", "-zxf", str(egs_tar), "-C", str(phits_root / "XS")], check=True)
+        print(f">>> [SETUP] EGS data san sang tai: {phits_root / 'XS' / 'egs'}")
+
     print(f">>> [SETUP] PHITS binary san sang tai: {phits_bin} (root: {phits_root})")
     return phits_bin, phits_root
 
