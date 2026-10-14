@@ -1,0 +1,121 @@
+Narrow Beam Gamma Shielding - Material S4 @ 1000 keV - tinh R
+
+$OMP=4
+
+[ Parameters ]
+icntl    = 0
+nucdata  = 0
+maxcas   = 300000
+maxbch   = 1
+negs     = 1        $ BAT BUOC: bat EGS5 de dung T-Interact
+emin(14) = 1.0e-3   $ nguong cutoff photon (MeV)
+emin(12) = 0.200000   $ nguong cutoff electron (MeV) - tang theo e0 de giam thoi gian
+file(6)  = phits_s4_1000keV.out
+
+[ Source ]
+totfact  = 1.0
+s-type   = 1
+x0       = 0.0
+y0       = 0.0
+z0       = 0.0
+z1       = 0.0
+proj     = photon
+e0       = 1.000000
+dir      = 1
+r0       = 0.0
+
+[ Material ]
+m1    82000.00c  1.0
+
+m2    5000.00c  -0.0905
+      8000.00c  -0.3289
+      14000.00c  -0.0214
+      20000.00c  -0.0305
+      57000.00c  -0.5288
+
+m3    11000.00c  -0.153
+      53000.00c  -0.847
+
+[ Surface ]
+10  pz   2.0
+11  pz   12.0
+12  pz   21.2039
+13  pz   31.2039
+14  pz   36.2039
+15  pz   0.0
+24  pz  -5.0
+25  pz  43.7039
+
+20  cz   0.25
+21  cz   1.0
+22  cz   2.5
+23  cz   5.0
+99  so 100.0
+
+[ Cell ]
+101   1 -11.34   10 -11 -21 20
+102   0          10 -11 -20
+103   2 -3.5799  11 -12 -22   $ vung mau S4 - can tinh R o day
+104   1 -11.34   12 -13 -21 20
+105   0          12 -13 -20
+106   3 -3.67    13 -14 -23
+110   0          -99 #101 #102 #103 #104 #105 #106
+111  -1          99
+
+$ ===================================================================
+$ Cong thuc: R = mu_compton / (mu_total - mu_rayleigh)
+$          = mu_compton / (mu_compton + mu_photoelec + mu_pairprod)
+$ (vi mu_total - mu_rayleigh = tong tat ca thanh phan TRU rayleigh
+$  = compton + photoelec + pairprod)
+$ => CAN 3 tally duoi day (compton, photoelec, pairprod).
+$    LUU Y: pairprod chi = 0 khi nguon < 1.022 MeV (nguong tao cap).
+$    Neu ban khao sat nhieu muc nang luong (co muc >= 1.022 MeV),
+$    BAT BUOC phai giu tally pairprod nay, khong duoc bo qua.
+$ ===================================================================
+
+[ T-Interact ]
+title  = Compton (incoherent) interaction spectrum in S4 sample (region 103)
+mesh   = reg
+reg    = 103
+part   = photon
+e-type = 2
+ne     = 100
+emin   = 0.001000
+emax   = 1.100000
+unit   = 1
+axis   = eng
+output = compton
+file   = interact_compton_s4_1000keV.out
+epsout = 1
+
+[ T-Interact ]
+title  = Photoelectric interaction spectrum in S4 sample (region 103)
+mesh   = reg
+reg    = 103
+part   = photon
+e-type = 2
+ne     = 100
+emin   = 0.001000
+emax   = 1.100000
+unit   = 1
+axis   = eng
+output = photoelec
+file   = interact_photoelec_s4_1000keV.out
+epsout = 1
+
+[ T-Interact ]
+title  = Pair production interaction spectrum in S4 sample (region 103) - GIU LAI vi co khao sat nhieu muc nang luong
+mesh   = reg
+reg    = 103
+part   = photon
+e-type = 2
+ne     = 100
+emin   = 0.001000
+emax   = 1.100000
+unit   = 1
+axis   = eng
+output = pairprod
+file   = interact_pairprod_s4_1000keV.out
+epsout = 1
+
+[End]

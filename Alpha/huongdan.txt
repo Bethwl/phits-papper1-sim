@@ -1,0 +1,17 @@
+cd vào mục này bằng wsl 
+
+nhập năng lượng muốn khảo sát vào thickness_table
+
+lấy từ srim projected range tại các mứ năng lượng đó nhập vào srim_range_table_alpha.csv
+$để có được một bề dày ổn để khảo sát thay vì phải tự chọn bừa 
+
+
+python generate_msp_range_inputs_alpha.py srim_range_table_alpha.csv inputs_msp_range_alpha/
+$tạo file input thoe mẫu trong generate_.py 
+
+python3 run_batch.py inputs_msp_range_alpha/ outputs_msp_range_alpha/ phits.sh 5
+$chạy các file inp vauwf tạo với mức core có thể custom (các file inp mẫu đang mặc định là chạy với 4core/file-$OPM=4 nên custom cho phù hợp)
+
+
+python3 parse_msp_range_alpha.py thickness_table.xlsx outputs_msp_range_alpha/ msp_range_results_alpha.xlsx
+$lấy kết quả vào excel 

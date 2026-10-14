@@ -1,0 +1,14 @@
+cd đến thư mục này bằng wsl 
+
+thay năng lượng và bề dày cần thiết vào thickness_table
+
+chạy 
+
+python3 generate_inputs.py thickness_table.xlsx inputs/ 
+$tao cac file inp da setup trong file generate_inputs.py 
+
+python3 run_batch.py inputs/ outputs/ phits.sh 30 
+$chay cac file inp vua tao ra , co the custom so core de chay 
+
+python3 parse_results.py thickness_table.xlsx outputs/ flux_results.xlsx
+$gop ket qua va de vao excel 

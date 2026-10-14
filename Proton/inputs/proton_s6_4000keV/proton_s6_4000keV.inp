@@ -1,0 +1,86 @@
+MSP + Range Profile - proton in Glass S6 @ 4000 keV
+
+$OMP=4
+
+[ Parameters ]
+icntl    = 0
+nucdata  = 0
+maxcas   = 1000000
+maxbch   = 1
+file(6)  = phits_msp_proton_s6_4000keV.out
+
+[ Source ]
+totfact  = 1.0
+s-type   = 1
+x0       = 0.0
+y0       = 0.0
+z0       = 0.0
+z1       = 0.0
+proj     = proton
+e0       = 4.000000  $ MeV/n -> tong dong nang = 4.000000*1 = 4.000000 MeV = 4000 keV
+dir      = 1
+r0       = 0.02
+
+[ Material ]
+m2    5000.00c  -0.062
+      8000.00c  -0.2752
+      14000.00c  -0.0179
+      20000.00c  -0.0255
+      57000.00c  -0.6195
+
+[ Surface ]
+10  pz   0.0
+11  pz   0.0176928000     $ be day khoi = 176.9280 um (= 1.6x range uoc luong SRIM 110.5800 um)
+20  cz   1.0
+99  so  100.0
+
+[ Cell ]
+101   2 -3.9599   10 -11 -20
+102   0              -99 #101
+103  -1              99
+
+[ T-Deposit ]
+title  = Depth-dose profile (Bragg curve) - dung de suy ra MSP(E)
+mesh   = xyz
+x-type = 2
+nx     = 1
+xmin   = -1.0
+xmax   =  1.0
+y-type = 2
+ny     = 1
+ymin   = -1.0
+ymax   =  1.0
+z-type = 2
+nz     = 300          $ moi lop day 0.589760 um - PHAI KHOP voi T-Track ben duoi
+zmin   = 0.0
+zmax   = 0.0176928000
+unit   = 2          $ MeV/source (nang luong hap thu TRONG TUNG LOP)
+axis   = z
+output = dose
+letmat = 0
+part   = proton
+file   = dose_profile_proton_s6_4000keV.out
+
+[ T-Track ]
+title  = Depth-fluence profile (doc ra Projected Range bang tich phan duong cong flux)
+mesh   = xyz
+x-type = 2
+nx     = 1
+xmin   = -1.0
+xmax   =  1.0
+y-type = 2
+ny     = 1
+ymin   = -1.0
+ymax   =  1.0
+z-type = 2
+nz     = 300
+zmin   = 0.0
+zmax   = 0.0176928000
+part   = proton
+e-type = 2
+ne     = 1
+emin   = 0.0
+emax   = 4.000000
+unit   = 1
+axis   = z
+file   = range_profile_proton_s6_4000keV.out

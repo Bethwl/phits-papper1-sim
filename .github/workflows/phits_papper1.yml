@@ -1,0 +1,52 @@
+name: PHITS Parallel Simulation (2026_7_5_phits_papper1)
+
+on:
+  workflow_dispatch:
+    inputs:
+      primaries:
+        description: 'Số hạt mỗi job'
+        required: true
+        default: '1000000'
+        type: string
+      gdrive_folder:
+        description: 'Google Drive Project Folder ID'
+        required: true
+        default: '1tt3-uokplpyFiQ6xgU5YmlDQ_9ihHlUl'
+        type: string
+
+jobs:
+  run-phits:
+    name: PHITS Runner #${{ matrix.runner_id }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      matrix:
+        runner_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install pandas openpyxl google-api-python-client google-auth-httplib2 google-auth-oauthlib numpy
+
+      - name: Run PHITS Worker & Stream to Google Drive
+        env:
+          GDRIVE_OAUTH_JSON: ${{ secrets.GDRIVE_OAUTH_JSON }}
+          GDRIVE_FOLDER_ID: ${{ github.event.inputs.gdrive_folder }}
+        run: |
+          python3 run_phits_papper1.py \
+            --runner-id ${{ matrix.runner_id }} \
+            --num-runners 10 \
+            --gdrive-folder "${{ github.event.inputs.gdrive_folder }}" \
+            --plan-file "phits_papper1_plan_14acc.json" \
+            --github-user "${{ github.repository_owner }}" \
+            --timeout-hours 2.5

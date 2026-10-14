@@ -1,0 +1,9 @@
+# Gitignore for 2026_7_5_phits_papper1
+Neutron/
+*.zip
+*.out
+*.csv
+!checklist_phits_papper1.csv
+__pycache__/
+*.pyc
+.tmp/
